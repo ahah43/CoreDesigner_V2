@@ -303,18 +303,19 @@
                 }
                 let d_big = Number(D.value);
                 let d_small = 0.0;
+                let previousQty = 0;
                 m.forEach((match, groupIndex) => {
                   // console.log(`Found match, group ${groupIndex}: ${match}`);
                   let thisComb = match.replace(/[^0-9.]/g, ' ').replace(/[\n\r\s\t]+/g, ' ').replace(/^\s+|\s+$/g, '').split(" ");
                   for (let sheeti = 0; sheeti < thisComb.length; sheeti++) {
                     let elementS = document.createElement("a");
                     d_small = Number(thisComb[sheeti]);
-                    let thisSheetsQty = Math.ceil(Math.sqrt(d_big * d_big / 4.0 - d_small * d_small / 4.0) / Number(th.value));
+                    let thisSheetsQty = Math.ceil(Math.sqrt(d_big * d_big / 4.0 - d_small * d_small / 4.0) / Number(th.value))-previousQty;
                     let thisSheetsTh = thisSheetsQty * Number(th.value);
                     elementS.innerHTML = "Sheet size: " + thisComb[sheeti].toString().padStart(3, '0') + " - Sheets Qty = " + thisSheetsQty.toString().padStart(3, '0') + " ×2 sheets == " + thisSheetsTh.toFixed(3) + " ×2 mm hieght<br>";
                     detailedResults.appendChild(elementS);
                     // console.log(Number(th));
-                    d_big = d_small;
+                    previousQty = thisSheetsQty;
                   }
                   // thisSheetQty = 
                 });
