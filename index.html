@@ -1,17 +1,13 @@
 <html>
-
 <head>
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
 </head>
 <style>
-  /* Style the tab */
   .tab {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
   }
-
-  /* Style the buttons that are used to open the tab content */
   .tab button {
     background-color: inherit;
     float: left;
@@ -21,131 +17,80 @@
     padding: 14px 16px;
     transition: 0.3s;
   }
-
-  /* Change background color of buttons on hover */
   .tab button:hover {
     background-color: #ddd;
   }
-
-  /* Create an active/current tablink class */
   .tab button.active {
     background-color: #ccc;
   }
-
-  /* Style the tab content */
   .tabcontent {
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
   }
-
   .slidecontainer {
     width: 100%;
-    /* Width of the outside container */
   }
-
-  /* The slider itself */
   .slider {
     -webkit-appearance: none;
-    /* Override default CSS styles */
     appearance: none;
     width: 100%;
-    /* Full-width */
     height: 25px;
-    /* Specified height */
     background: #d3d3d3;
-    /* Grey background */
     outline: none;
-    /* Remove outline */
     opacity: 0.7;
-    /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s;
-    /* 0.2 seconds transition on hover */
     transition: opacity .2s;
   }
-
-  /* Mouse-over effects */
   .slider:hover {
     opacity: 1;
-    /* Fully shown on mouse-over */
   }
-
-  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    /* Override default look */
     appearance: none;
     width: 25px;
-    /* Set a specific slider handle width */
     height: 25px;
-    /* Slider handle height */
     background: #dd0909;
-    /* Green background */
     cursor: pointer;
-    /* Cursor on hover */
   }
-
   .slider::-moz-range-thumb {
     width: 25px;
-    /* Set a specific slider handle width */
     height: 25px;
-    /* Slider handle height */
     background: #dd0909;
-    /* Green background */
     cursor: pointer;
-    /* Cursor on hover */
   }
-
   .field {
     text-decoration: none;
     text-align: center;
-    /* font-size: 2vw; */
-    /* width: 2rem;
-        height: 2rem;
-        line-height: 2rem; */
-    /* border-color: rgb(17, 179, 57);   */
     border-width: .25em;
     border-style: solid;
     display: inline-block;
   }
-
-
   * {
     box-sizing: border-box;
   }
-
-  /* Create columns that floats next to each other */
   .column {
     float: left;
     padding: 2px;
     border: 2px solid grey;
     border-radius: 5px;
   }
-
-  /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
     clear: both;
   }
 </style>
-
-
-
-
 <body>
   <h2>Cross Section Designer for Laminated Circular Core - v2<br>
     by: Ahmed Hassan, ahah43210@gmail.com
     14.07.2022
   </h2>
-  <!-- Note the usage of `type=module` here as this is an ES6 module -->
   <script type="module">
     import init, { myCoreDesign } from './pkg/without_a_bundler.js';
-
     async function run() {
       await init();
-
       var sliderLL = document.getElementById("myRangeLL");
       var outputLL = document.getElementById("demoLL");
       var sliderUL = document.getElementById("myRangeUL");
@@ -155,9 +100,6 @@
       outputLL.innerHTML = sliderLL.value; // Display the default slider value
       outputUL.innerHTML = sliderUL.value; // Display the default slider value
       render();
-
-
-
       D.onchange = function () {
         this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
         let DmaxValueCeil = 10 * (Math.ceil(Number(this.value) / 10) - 1);
@@ -165,24 +107,16 @@
         sliderUL.value = DmaxValueCeil;
         sliderLL.max = DmaxValueCeil;
         if (Number(this.value) < Math.min(Number(sliderLL.value), Number(sliderLL.min))) {
-
-          // let DminValueCeil = 10 * (Math.floor(Number(this.value) / 10)-1);
           sliderLL.min = 10;
           sliderLL.value = 10;
         }
         outputUL.innerHTML = sliderUL.value; // Display the default slider value
         outputLL.innerHTML = sliderLL.value; // Display the default slider value
         render();
-        // sliderLL.oninput();
       }
-
       th.onchange = function () {
-        // this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
         render();
-        // sliderLL.oninput();
       }
-
-      // Update the current slider value (each time you drag the slider handle)
       sliderUL.oninput = function () {
         outputUL.innerHTML = this.value;
         this.max = 10 * (Math.ceil(Number(D.value) / 10) - 1);
@@ -191,9 +125,7 @@
           outputLL.innerHTML = sliderLL.value; // Display the default slider value
         }
         render();
-        // sliderLL.oninput();
       }
-
       sliderLL.oninput = function () {
         this.max = 10 * (Math.ceil(Number(D.value) / 10) - 1);
         outputLL.innerHTML = this.value;
@@ -202,19 +134,12 @@
           outputUL.innerHTML = sliderUL.value; // Display the default slider value
         }
         render();
-        // sliderUL.oninput();
       }
-
-
-
       function render() {
-        // let root = document.getElementById("root");
         let screenWidth = screen.width;
         root.innerHTML = "";
         let minSheet = Number(sliderLL.value);
         let maxSheet = Number(sliderUL.value);
-        // console.log(minSheet)
-        // console.log(maxSheet)
         Availables = [];
         let results = "";
         for (let x = minSheet; x <= maxSheet; x += 10) {
@@ -231,7 +156,6 @@
           }
           element.style.width = screenWidth / 30;
           element.style.height = screenWidth / 30;
-          // element.style.lineHeight = screenWidth/11;
           element.addEventListener("click", (evt) => {
             evt.preventDefault();
             if (inAvailables.includes(x)) {
@@ -239,15 +163,14 @@
             } else {
               inAvailables.push(x);
             }
-            // toggleAvailability(x);
             render();
           });
-
           root.appendChild(element);
           root.style.gridTemplate = `repeat(100, auto) / repeat(20, auto)`;
-          results = myCoreDesign(D.value, th.value, Availables.toString());
-          // let results = "adsfasdfasdfdsfadfsadfsadfdsf";
-          // console.log(results);
+          results = "";
+          if (Availables.length != 0 ){
+            results = myCoreDesign(D.value, th.value, Availables.toString());
+          }
           Resultsss.innerHTML = "";
           detailedResults.innerHTML = "";
           detailedResultsLABEL.innerHTML = "";
@@ -259,7 +182,6 @@
             elementP.style.textDecoration = "none";
             elementP.style.fontSize = "10pt";
             elementP.style.color = "gray";
-
             elementP.addEventListener("mouseenter", (evt) => {
               evt.preventDefault();
               // elementP.style.backgroundColor = "green";
@@ -273,26 +195,19 @@
               elementP.style.color = "grey";
               elementP.style.fontSize = "10pt";
             });
-
             elementP.addEventListener("click", (evt) => {
               evt.preventDefault();
               document.getElementById('detailedResults').scrollIntoView();
               detailedResults.innerHTML = "";
               detailedResultsLABEL.innerHTML = "Details of the Selected Solution:";
               detailedResultsLABEL.style.fontWeight = "bold";
-              // detailedResults.innerHTML = elementP.innerText;
-              //
               let elementD = document.createElement("a");
-              
-
                 elementD.innerHTML = "D = " + D.value + " mm, "+  elementP.innerText.slice(0,21) + " mm^2 <br><br>";
                 elementD.style.color = "black";
                 detailedResults.appendChild(elementD);
-
               const regex = /\[.*?\]/gm;
               let m;
               while ((m = regex.exec(elementP.innerText)) !== null) {
-                // This is necessary to avoid infinite loops with zero-width matches
                 if (m.index === regex.lastIndex) {
                   regex.lastIndex++;
                 }
@@ -300,7 +215,6 @@
                 let d_small = 0.0;
                 let previousQty = 0;
                 m.forEach((match, groupIndex) => {
-                  // console.log(`Found match, group ${groupIndex}: ${match}`);
                   let thisComb = match.replace(/[^0-9.]/g, ' ').replace(/[\n\r\s\t]+/g, ' ').replace(/^\s+|\s+$/g, '').split(" ");
                   for (let sheeti = 0; sheeti < thisComb.length; sheeti++) {
                     let elementS = document.createElement("a");
@@ -309,30 +223,18 @@
                     let thisSheetsTh = thisSheetsQty * Number(th.value);
                     elementS.innerHTML = "Sheet size: " + thisComb[sheeti].toString().padStart(3, '0') + " - Sheets Qty = " + thisSheetsQty.toString().padStart(3, '0') + " ×2 sheets == " + thisSheetsTh.toFixed(3) + " ×2 mm hieght<br>";
                     detailedResults.appendChild(elementS);
-                    // console.log(Number(th));
                     previousQty += thisSheetsQty;
                   }
-                  // thisSheetQty = 
                 });
               }
-
-
-
-
             });
             Resultsss.appendChild(elementP);
           }
-
         }
-
       }
-
-
     }
-
     run();
   </script>
-
   <div class="column" style="background-color:white;width: 40%;">
     <h3 style="font-size:20pt">Core & sheets dimensions</h3>
     <label> Core Diameter = </label><input type="number" id="D" value="250" min="20"
@@ -341,26 +243,19 @@
     <label> Sheet Thickness= </label><input type="text" id="th" value="0.27"
       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
       style="width: 30%;margin-bottom:10px;font-size:20pt" /> mm<br>
-
-
-
-    <h3 style="font-size:16pt">* Limit of Available Sheet Sizes </h3>
-
+ <h3 style="font-size:16pt">* Limit of Available Sheet Sizes </h3>
     <div class="slidecontainer">
       <label> Upper Limit = </label><label id="demoUL"></label>
       <input type="range" min="10" max="240" value="240" step="10" class="slider" id="myRangeUL">
     </div>
-
     <div class="slidecontainer">
       <label> Lower Limit = </label><label id="demoLL"></label>
       <input type="range" min="10" max="240" value="50" step="10" class="slider" id="myRangeLL">
     </div>
-
     <div>
       <h3 style="font-size:16pt">* Click on a Sheet Size to its Toggle Availablity </h3>
       <p id="root" display: grid; gap: 10px 10px;></p>
     </div>
-
     <div class="column" style="float:left ;background-color:white;width: 100%;">
       <label id="detailedResultsLABEL" for="detailedResults"></label>
       <p id="detailedResults" style="color:#dd0909; font-size: medium;"></p>
@@ -371,10 +266,5 @@
     <h3 style="font-size:12pt">* Click on a solution to print more details</h3>
     <p id="Resultsss"> </p>
   </div>
-
-
-
-
 </body>
-
 </html>
